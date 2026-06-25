@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Ayush Arya — Full Stack Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--bg2:#0a0f16;--surface:#161b22;--surface2:#1c2230;--surface3:#1a2035;
+  --border:#21262d;--border2:#30363d;
+  --blue:#4f8ef7;--blue2:#7cb3ff;--blue3:#3b82f6;
+  --text:#e6edf3;--muted:#8b949e;--muted2:#6e7681;
+  --green:#3fb950;--orange:#f79000;--pink:#ec4899;--teal:#14b8a6;--purple:#a855f7;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 60px;height:64px;background:rgba(13,17,23,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-size:1.15rem;font-weight:700;color:var(--blue);text-decoration:none}
+.nav-links{display:flex;gap:4px;list-style:none;align-items:center}
+.nav-links a{display:flex;align-items:center;gap:5px;padding:6px 14px;border-radius:6px;font-size:0.82rem;font-weight:500;color:var(--muted);text-decoration:none;transition:all 0.2s}
+.nav-links a:hover{color:var(--text);background:var(--surface)}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 40px 60px;position:relative;overflow:hidden}
+canvas#particles{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-content{position:relative;z-index:1;max-width:820px}
+.hero-name{font-size:clamp(2.6rem,7vw,5.5rem);font-weight:800;line-height:1.05;letter-spacing:-0.03em;margin-bottom:18px}
+.hero-name .en{color:var(--text)}
+.hero-name .foreign{display:block;font-size:0.6em;color:var(--muted2);font-weight:600;margin-top:8px;letter-spacing:0.04em;min-height:1.2em;transition:opacity 0.3s}
+.hero-role{font-size:clamp(1rem,2.5vw,1.45rem);color:var(--muted);min-height:2.2rem;margin-bottom:18px}
+#typed{color:var(--text);font-weight:500}
+.cursor{display:inline-block;width:2px;height:1em;background:var(--blue);margin-left:2px;animation:blink 1s step-end infinite;vertical-align:text-bottom}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.hero-desc{font-size:0.97rem;color:var(--muted);max-width:600px;margin:0 auto 38px;line-height:1.85}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
+.btn-blue{display:flex;align-items:center;gap:8px;padding:12px 28px;background:var(--blue);color:#fff;font-size:0.88rem;font-weight:600;border-radius:8px;text-decoration:none;transition:all 0.2s}
+.btn-blue:hover{background:var(--blue2);color:#0d1117;transform:translateY(-1px)}
+.btn-outline{display:flex;align-items:center;gap:8px;padding:12px 28px;background:transparent;color:var(--text);font-size:0.88rem;font-weight:500;border-radius:8px;border:1px solid var(--border2);text-decoration:none;transition:all 0.2s}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px)}
+.hero-socials{display:flex;gap:18px;justify-content:center;margin-bottom:48px}
+.social-link{width:44px;height:44px;border-radius:10px;border:1px solid var(--border2);background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;font-size:1.1rem;transition:all 0.2s}
+.social-link:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-2px)}
+.scroll-down{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted2);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;animation:bounce 2s infinite;text-decoration:none}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+/* SECTIONS */
+.sec{padding:90px 60px;max-width:1200px;margin:0 auto}
+.sec-divider{width:100%;height:1px;background:var(--border)}
+.sec-header{text-align:center;margin-bottom:56px}
+.sec-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:0}
+.sec-line{width:52px;height:3px;background:var(--blue);border-radius:2px;margin:14px auto 18px}
+.sec-sub{font-size:0.93rem;color:var(--muted);max-width:560px;margin:0 auto}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.6s ease,transform 0.6s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:start}
+.about-role{font-size:1.35rem;font-weight:700;margin-bottom:18px}
+.about-bio{font-size:0.93rem;color:var(--muted);line-height:1.9;margin-bottom:14px}
+.about-bio strong{color:var(--text);font-weight:600}
+.about-highlights{margin-top:22px;display:flex;flex-direction:column;gap:12px}
+.hl-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+.hl-title{font-size:0.92rem;font-weight:600;margin-bottom:5px}
+.hl-desc{font-size:0.8rem;color:var(--muted);line-height:1.65}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:26px 20px;text-align:center;transition:border-color 0.2s}
+.stat-card:hover{border-color:var(--blue)}
+.stat-icon{font-size:1.6rem;margin-bottom:8px}
+.stat-num{font-size:1.9rem;font-weight:800;color:var(--blue)}
+.stat-label{font-size:0.74rem;color:var(--muted);margin-top:4px}
+
+/* EXPERIENCE */
+.exp-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px;margin-bottom:20px;transition:border-color 0.25s;position:relative;overflow:hidden}
+.exp-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--blue)}
+.exp-card:hover{border-color:var(--blue)}
+.exp-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:rgba(79,142,247,0.15);color:var(--blue2);border-radius:100px;font-size:0.7rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:16px}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.exp-role{font-size:1.12rem;font-weight:700}
+.exp-company{font-size:0.88rem;font-weight:600;color:var(--blue2);margin-bottom:20px;margin-top:3px}
+.exp-meta{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.exp-date,.exp-loc{font-size:0.78rem;color:var(--muted);display:flex;align-items:center;gap:5px}
+.ach-label{display:flex;align-items:center;gap:8px;font-size:0.87rem;font-weight:600;margin-bottom:13px}
+.ach-item{background:var(--surface2);border:1px solid var(--border);border-left:2px solid var(--blue);border-radius:0 8px 8px 0;padding:13px 18px;margin-bottom:9px;font-size:0.82rem;color:var(--muted);line-height:1.72;display:flex;gap:12px;align-items:flex-start}
+.ach-item .chk{color:var(--green);flex-shrink:0;margin-top:1px}
+.tech-label{display:flex;align-items:center;gap:8px;font-size:0.84rem;font-weight:600;margin:18px 0 11px}
+.tech-tags{display:flex;flex-wrap:wrap;gap:8px}
+.tech-tag{padding:5px 14px;background:var(--surface2);border:1px solid var(--border2);border-radius:100px;font-size:0.74rem;color:var(--muted);font-family:'JetBrains Mono',monospace;transition:all 0.2s;cursor:default}
+.tech-tag:hover{border-color:var(--blue);color:var(--blue2)}
+
+/* SKILLS - progress bar cards */
+.skills-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px}
+.skills-2col{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.skill-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;transition:border-color 0.2s}
+.skill-card:hover{border-color:var(--blue)}
+.skill-card-icon{font-size:1.8rem;text-align:center;margin-bottom:14px}
+.skill-card-title{font-size:1rem;font-weight:700;text-align:center;margin-bottom:20px}
+.skill-bar-item{margin-bottom:16px}
+.skill-bar-header{display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:6px}
+.skill-bar-name{color:var(--text)}
+.skill-bar-pct{color:var(--muted)}
+.skill-bar-track{height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.skill-bar-fill{height:100%;border-radius:3px;width:0;transition:width 1.2s ease}
+.fill-blue{background:linear-gradient(90deg,#3b82f6,#7cb3ff)}
+.fill-green{background:linear-gradient(90deg,#22c55e,#86efac)}
+.fill-purple{background:linear-gradient(90deg,#a855f7,#d8b4fe)}
+.fill-orange{background:linear-gradient(90deg,#f59e0b,#fcd34d)}
+.fill-teal{background:linear-gradient(90deg,#14b8a6,#5eead4)}
+.fill-pink{background:linear-gradient(90deg,#ec4899,#f9a8d4)}
+
+/* skills tag cards */
+.skill-tag-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center}
+.skill-tag-card-title{font-size:1rem;font-weight:700;margin-bottom:18px}
+.skill-tags-wrap{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.s-tag{padding:6px 16px;background:var(--surface2);border:1px solid var(--border2);border-radius:100px;font-size:0.78rem;color:var(--muted);transition:all 0.2s}
+.s-tag:hover{border-color:var(--blue);color:var(--blue2)}
+
+/* PROJECTS */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.proj-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:26px;transition:all 0.25s;display:flex;flex-direction:column;gap:13px}
+.proj-card:hover{border-color:var(--blue);transform:translateY(-3px)}
+.proj-top{display:flex;justify-content:space-between;align-items:flex-start}
+.proj-icon{font-size:1.6rem}
+.proj-links{display:flex;gap:8px}
+.proj-link{padding:4px 12px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;font-size:0.72rem;color:var(--muted);text-decoration:none;font-family:'JetBrains Mono',monospace;transition:all 0.2s}
+.proj-link:hover{border-color:var(--blue);color:var(--blue2)}
+.proj-name{font-size:1rem;font-weight:700}
+.proj-desc{font-size:0.82rem;color:var(--muted);line-height:1.72;flex:1}
+.proj-stack{display:flex;flex-wrap:wrap;gap:6px}
+.proj-tag{padding:3px 10px;background:rgba(79,142,247,0.1);border-radius:4px;font-size:0.7rem;color:var(--blue2);font-family:'JetBrains Mono',monospace}
+
+/* EDUCATION */
+.edu-hero-card{background:linear-gradient(135deg,#4338ca,#7c3aed,#9333ea);border-radius:16px;padding:48px;text-align:center;margin-bottom:24px;position:relative;overflow:hidden}
+.edu-hero-card::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05)}
+.edu-hero-icon{font-size:2.5rem;margin-bottom:16px}
+.edu-hero-degree{font-size:1.5rem;font-weight:800;margin-bottom:8px}
+.edu-hero-school{font-size:1rem;opacity:0.85;margin-bottom:20px}
+.edu-hero-meta{display:flex;justify-content:center;gap:32px;flex-wrap:wrap}
+.edu-meta-item{display:flex;align-items:center;gap:6px;font-size:0.85rem;opacity:0.9}
+.edu-2col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.edu-sub-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px}
+.edu-sub-title{font-size:1rem;font-weight:700;margin-bottom:16px}
+.edu-highlights-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.edu-highlights-list li{display:flex;align-items:flex-start;gap:8px;font-size:0.83rem;color:var(--muted);line-height:1.6}
+.edu-highlights-list .dot{color:var(--blue);font-size:0.7rem;margin-top:5px;flex-shrink:0}
+.coursework-tags{display:flex;flex-wrap:wrap;gap:8px}
+.cw-tag{padding:6px 14px;background:var(--surface2);border:1px solid var(--border2);border-radius:100px;font-size:0.78rem;color:var(--muted);transition:all 0.2s}
+.cw-tag:hover{border-color:var(--blue);color:var(--blue2)}
+.edu-3cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.edu-info-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center}
+.edu-info-icon{font-size:1.8rem;margin-bottom:12px}
+.edu-info-title{font-size:0.95rem;font-weight:700;margin-bottom:8px}
+.edu-info-desc{font-size:0.8rem;color:var(--muted);line-height:1.65}
+
+/* ACHIEVEMENTS */
+.ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:32px}
+.ach-rec-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;position:relative;overflow:hidden;transition:border-color 0.2s}
+.ach-rec-card:hover{border-color:var(--blue)}
+.ach-rec-card .corner-blob{position:absolute;top:-30px;right:-30px;width:100px;height:100px;border-radius:50%;opacity:0.15}
+.ach-category-badge{display:inline-block;padding:3px 10px;background:var(--surface2);border:1px solid var(--border2);border-radius:4px;font-size:0.7rem;color:var(--muted);margin-bottom:14px}
+.ach-rec-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:8px}
+.ach-rec-icon{font-size:1.5rem;flex-shrink:0}
+.ach-rec-title{font-size:1rem;font-weight:700}
+.ach-rec-org{font-size:0.8rem;color:var(--muted);margin-bottom:10px;margin-left:38px}
+.ach-rec-desc{font-size:0.82rem;color:var(--muted);line-height:1.7}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}
+.stats-row-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center;transition:border-color 0.2s}
+.stats-row-card:hover{border-color:var(--blue)}
+.stats-row-icon{font-size:1.5rem;margin-bottom:10px}
+.stats-row-num{font-size:1.8rem;font-weight:800;color:var(--text)}
+.stats-row-label{font-size:0.75rem;color:var(--muted);margin-top:4px}
+
+/* CONTACT */
+.contact-cta-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:60px 40px;text-align:center;margin-bottom:0}
+.contact-cta-title{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;margin-bottom:12px}
+.contact-cta-sub{font-size:0.93rem;color:var(--muted);max-width:500px;margin:0 auto 32px}
+.contact-cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* FOOTER */
+footer{background:linear-gradient(135deg,#4338ca 0%,#7c3aed 50%,#9333ea 100%);padding:56px 60px 28px;margin-top:0}
+.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:48px;max-width:1100px;margin:0 auto;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.15)}
+.footer-brand-name{font-size:1.4rem;font-weight:800;margin-bottom:12px}
+.footer-brand-desc{font-size:0.85rem;opacity:0.75;line-height:1.75;margin-bottom:20px}
+.footer-socials{display:flex;gap:12px}
+.footer-soc{width:38px;height:38px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.8);text-decoration:none;font-size:1rem;transition:all 0.2s}
+.footer-soc:hover{background:rgba(255,255,255,0.2)}
+.footer-col-title{font-size:0.9rem;font-weight:700;margin-bottom:16px;opacity:0.9}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-links a{font-size:0.83rem;opacity:0.7;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.footer-links a:hover{opacity:1}
+.footer-contact-item{margin-bottom:12px}
+.footer-contact-label{font-size:0.75rem;font-weight:700;opacity:0.6;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px}
+.footer-contact-val{font-size:0.85rem;opacity:0.85}
+.footer-bottom{max-width:1100px;margin:20px auto 0;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:0.78rem;opacity:0.6}
+.back-top{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:1rem;transition:all 0.2s;text-decoration:none}
+.back-top:hover{background:rgba(255,255,255,0.2)}
+
+@media(max-width:900px){
+  nav{padding:0 20px}.nav-links{display:none}
+  .sec{padding:64px 20px}
+  .about-grid,.skills-3col,.skills-2col,.edu-2col,.edu-3cards,.ach-grid,.stats-row,.footer-grid{grid-template-columns:1fr}
+  .exp-header{flex-direction:column}.exp-meta{align-items:flex-start}
+  footer{padding:40px 20px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Ayush Arya</a>
+  <ul class="nav-links">
+    <li><a href="#about">👤 About</a></li>
+    <li><a href="#projects">🗂️ Projects</a></li>
+    <li><a href="#skills">⚡ Skills</a></li>
+    <li><a href="#education">🎓 Education</a></li>
+    <li><a href="#achievements">🏆 Achievements</a></li>
+    <li><a href="#resume">📄 Resume</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="particles"></canvas>
+  <div class="hero-content">
+    <h1 class="hero-name">
+      <span class="en">Hi, I'm Ayush Arya</span>
+      <span class="foreign" id="foreign-name">あゆし・アリア</span>
+    </h1>
+    <div class="hero-role"><span id="typed"></span><span class="cursor"></span></div>
+    <p class="hero-desc">Building clean, fast web experiences and AI-powered apps that actually solve problems. Obsessed with good UI, sharp code, and shipping things that impress.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-blue">✉️ Get In Touch</a>
+      <a href="Ayush_Arya_Resume.pdf" download class="btn-outline">⬇️ Download Resume</a>
+    </div>
+    <div class="hero-socials">
+      <a href="https://github.com/Ayusharya06" target="_blank" class="social-link" title="GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/ayush-arya-81488a343" target="_blank" class="social-link" title="LinkedIn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="mailto:ayusharya.cse@gmail.com" class="social-link" title="Email">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+    <a href="#about" class="scroll-down"><span>↓</span><span>Scroll Down</span></a>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- ABOUT -->
+<div class="sec" id="about">
+  <div class="sec-header reveal">
+    <h2 class="sec-title">About Me</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="about-grid">
+    <div>
+      <h3 class="about-role reveal">Full Stack Developer & AI Builder</h3>
+      <p class="about-bio reveal">I'm <strong>Ayush Arya</strong>, a 20-year-old developer from <strong>Gwalior, India</strong> with a CSE background. I build fast, clean, and accessible web experiences — from polished UIs to AI-powered tools.</p>
+      <p class="about-bio reveal">I've built <strong>10+ projects</strong> including music players, gallery apps, voice changers, and AI chatbots. I love integrating the <strong>Claude API</strong> into real products and crafting UIs that don't look like templates.</p>
+      <p class="about-bio reveal">Outside code, I'm obsessed with the gym, natural wellness, and finding the most efficient path from idea to shipped product.</p>
+      <div class="about-highlights reveal">
+        <div class="hl-card"><div class="hl-title">🎯 Full Stack Craft</div><div class="hl-desc">End-to-end web development — pixel-perfect frontends to solid backends. Every project is an opportunity to raise the bar.</div></div>
+        <div class="hl-card"><div class="hl-title">🤖 AI Integration</div><div class="hl-desc">Built real AI-powered apps using Claude API — from anime chatbots to selective thumbnail regeneration tools.</div></div>
+      </div>
+    </div>
+    <div class="stats-grid reveal">
+      <div class="stat-card"><div class="stat-icon">💻</div><div class="stat-num">10+</div><div class="stat-label">Projects Built</div></div>
+      <div class="stat-card"><div class="stat-icon">👤</div><div class="stat-num">5+</div><div class="stat-label">Happy Clients</div></div>
+      <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-num">2+</div><div class="stat-label">Years Coding</div></div>
+      <div class="stat-card"><div class="stat-icon">🚀</div><div class="stat-num">∞</div><div class="stat-label">Ideas Queued</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- PROJECTS -->
+<div class="sec" id="projects">
+  <div class="sec-header reveal">
+    <h2 class="sec-title">Projects</h2>
+    <div class="sec-line"></div>
+    <p class="sec-sub">Real-world problems I've solved through code.</p>
+  </div>
+
+  <!-- Project 1 — ThumbAI -->
+  <div class="exp-card reveal" style="margin-bottom:24px">
+    <div class="exp-badge">🤖 AI / Productivity</div>
+    <div class="exp-header" style="margin-bottom:12px">
+      <div>
+        <div class="exp-role">ThumbAI — AI Thumbnail Regenerator</div>
+        <div class="exp-company" style="margin-bottom:0">Web App &nbsp;·&nbsp; 2024</div>
+      </div>
+      <div class="exp-meta">
+        <div class="exp-date">⌨️ React · Claude API · Canvas API</div>
+      </div>
+    </div>
+
+    <p style="font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:18px">
+      <strong style="color:var(--text)">Problem:</strong> YouTubers and content creators waste hours redesigning entire thumbnails just to change one small element — a background, a text label, or a product image. There was no tool that let you surgically replace <em>only</em> the part you wanted.
+    </p>
+    <p style="font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:20px">
+      <strong style="color:var(--text)">Solution:</strong> Built ThumbAI — a web app where creators upload a thumbnail, select a specific region using a canvas-based selection tool, describe what they want replaced, and Claude AI regenerates only that element while keeping the rest of the thumbnail intact. Cuts thumbnail iteration time from hours to seconds.
+    </p>
+
+    <div class="ach-label">🔔 Key Features</div>
+    <div class="ach-item"><span class="chk">✅</span><span>Canvas-based region selector — click and drag to isolate any element in the thumbnail for AI replacement.</span></div>
+    <div class="ach-item"><span class="chk">✅</span><span>Claude API integration for intelligent, context-aware image element regeneration based on text prompts.</span></div>
+    <div class="ach-item"><span class="chk">✅</span><span>Non-destructive editing — only the selected region changes, preserving brand identity and composition.</span></div>
+    <div class="ach-item"><span class="chk">✅</span><span>One-click export — download the final edited thumbnail at full resolution, ready to upload.</span></div>
+
+    <div class="tech-label">⌨️ Technologies Used</div>
+    <div class="tech-tags">
+      <span class="tech-tag">React.js</span><span class="tech-tag">Claude API</span><span class="tech-tag">Canvas API</span><span class="tech-tag">JavaScript</span><span class="tech-tag">CSS3</span><span class="tech-tag">Vercel</span>
+    </div>
+  </div>
+
+  <!-- Project 2 — FocusLock -->
+  <div class="exp-card reveal">
+    <div class="exp-badge">📱 Android / Productivity</div>
+    <div class="exp-header" style="margin-bottom:12px">
+      <div>
+        <div class="exp-role">FocusLock — Penalty-Based App Blocker</div>
+        <div class="exp-company" style="margin-bottom:0">Android App &nbsp;·&nbsp; 2024</div>
+      </div>
+      <div class="exp-meta">
+        <div class="exp-date">⌨️ Android · Java · Accessibility API</div>
+      </div>
+    </div>
+
+    <p style="font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:18px">
+      <strong style="color:var(--text)">Problem:</strong> Traditional app blockers are easy to bypass — users just uninstall them or disable them when willpower runs out. Students and professionals lose hours daily to distraction apps like Instagram and YouTube with no real consequence for unlocking them.
+    </p>
+    <p style="font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:20px">
+      <strong style="color:var(--text)">Solution:</strong> Built FocusLock — an Android productivity app that locks distracting apps during focus sessions and introduces a <em>penalty system</em> for early unlocks. Users set a focus goal; if they break it, they must complete a challenge (math problem, long press timer, or a donation to a cause) before accessing the blocked app. Makes distraction costly enough to avoid.
+    </p>
+
+    <div class="ach-label">🔔 Key Features</div>
+    <div class="ach-item"><span class="chk">✅</span><span>Accessibility API-based real-time app monitoring — detects and intercepts launches of blocked apps instantly.</span></div>
+    <div class="ach-item"><span class="chk">✅</span><span>Penalty unlock system — users face timed challenges or math problems before they can access a blocked app mid-session.</span></div>
+    <div class="ach-item"><span class="chk">✅</span><span>Session scheduling — set daily focus windows (e.g. 9am–12pm) with automatic block/unblock cycles.</span></div>
+    <div class="ach-item"><span class="chk">✅</span><span>Focus streak tracker — visualizes daily consistency to build long-term discipline habits.</span></div>
+
+    <div class="tech-label">⌨️ Technologies Used</div>
+    <div class="tech-tags">
+      <span class="tech-tag">Android</span><span class="tech-tag">Java</span><span class="tech-tag">Accessibility Service API</span><span class="tech-tag">UsageStatsManager</span><span class="tech-tag">SharedPreferences</span><span class="tech-tag">Material Design</span>
+    </div>
+  </div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- SKILLS -->
+<div class="sec" id="skills">
+  <div class="sec-header reveal">
+    <h2 class="sec-title">Skills & Expertise</h2>
+    <div class="sec-line"></div>
+    <p class="sec-sub">My tech stack and proficiency levels across different domains.</p>
+  </div>
+
+  <!-- Row 1: progress bar cards -->
+  <div class="skills-3col" style="margin-bottom:20px">
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">⌨️</div>
+      <div class="skill-card-title">Programming Languages</div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">JavaScript</span><span class="skill-bar-pct">92%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-blue" data-w="92"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">HTML / CSS</span><span class="skill-bar-pct">95%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-blue" data-w="95"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Python</span><span class="skill-bar-pct">70%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-blue" data-w="70"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Java (Android)</span><span class="skill-bar-pct">65%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-blue" data-w="65"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">SQL</span><span class="skill-bar-pct">72%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-blue" data-w="72"></div></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">📱</div>
+      <div class="skill-card-title">Frameworks & Libraries</div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">React.js</span><span class="skill-bar-pct">88%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-green" data-w="88"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Node.js</span><span class="skill-bar-pct">78%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-green" data-w="78"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Tailwind CSS</span><span class="skill-bar-pct">90%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-green" data-w="90"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Express.js</span><span class="skill-bar-pct">75%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-green" data-w="75"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Web Audio API</span><span class="skill-bar-pct">85%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-green" data-w="85"></div></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🗄️</div>
+      <div class="skill-card-title">Backend & Database</div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">REST APIs</span><span class="skill-bar-pct">85%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-purple" data-w="85"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">MongoDB</span><span class="skill-bar-pct">70%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-purple" data-w="70"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">MySQL</span><span class="skill-bar-pct">72%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-purple" data-w="72"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Firebase</span><span class="skill-bar-pct">68%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-purple" data-w="68"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Claude API</span><span class="skill-bar-pct">90%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-purple" data-w="90"></div></div></div>
+    </div>
+  </div>
+
+  <!-- Row 2: more progress bars -->
+  <div class="skills-3col" style="margin-bottom:20px">
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🔧</div>
+      <div class="skill-card-title">Developer & AI Tools</div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Git & GitHub</span><span class="skill-bar-pct">88%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-orange" data-w="88"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">VS Code</span><span class="skill-bar-pct">95%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-orange" data-w="95"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Prompt Engineering</span><span class="skill-bar-pct">85%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-orange" data-w="85"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Vercel / Deploy</span><span class="skill-bar-pct">90%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-orange" data-w="90"></div></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">☁️</div>
+      <div class="skill-card-title">Concepts & Architecture</div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Responsive Design</span><span class="skill-bar-pct">92%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-teal" data-w="92"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">MVC Architecture</span><span class="skill-bar-pct">78%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-teal" data-w="78"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Canvas / WebGL</span><span class="skill-bar-pct">72%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-teal" data-w="72"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">PWA</span><span class="skill-bar-pct">70%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-teal" data-w="70"></div></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">💡</div>
+      <div class="skill-card-title">CS & Soft Skills</div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Data Structures & Algorithms</span><span class="skill-bar-pct">80%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-pink" data-w="80"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">OOP</span><span class="skill-bar-pct">85%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-pink" data-w="85"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Problem Solving</span><span class="skill-bar-pct">88%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-pink" data-w="88"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-bar-name">Fast Delivery</span><span class="skill-bar-pct">92%</span></div><div class="skill-bar-track"><div class="skill-bar-fill fill-pink" data-w="92"></div></div></div>
+    </div>
+  </div>
+
+  <!-- Row 3: tag cards -->
+  <div class="skills-3col reveal">
+    <div class="skill-tag-card"><div class="skill-tag-card-title">Frontend Expertise</div><div class="skill-tags-wrap"><span class="s-tag">React.js</span><span class="s-tag">HTML5</span><span class="s-tag">CSS3</span><span class="s-tag">Tailwind</span><span class="s-tag">JavaScript</span><span class="s-tag">Animations</span></div></div>
+    <div class="skill-tag-card"><div class="skill-tag-card-title">Backend & Database</div><div class="skill-tags-wrap"><span class="s-tag">Node.js</span><span class="s-tag">Express</span><span class="s-tag">MongoDB</span><span class="s-tag">MySQL</span><span class="s-tag">REST API</span><span class="s-tag">Firebase</span></div></div>
+    <div class="skill-tag-card"><div class="skill-tag-card-title">Tools & Deployment</div><div class="skill-tags-wrap"><span class="s-tag">Git</span><span class="s-tag">GitHub</span><span class="s-tag">Vercel</span><span class="s-tag">VS Code</span><span class="s-tag">Claude API</span><span class="s-tag">Android</span></div></div>
+  </div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- EDUCATION -->
+<div class="sec" id="education">
+  <div class="sec-header reveal">
+    <h2 class="sec-title">Education</h2>
+    <div class="sec-line"></div>
+    <p class="sec-sub">My academic journey that laid the foundation for my career in technology.</p>
+  </div>
+
+  <div class="edu-hero-card reveal">
+    <div class="edu-hero-icon">📚</div>
+    <div class="edu-hero-degree">Bachelor of Technology in Computer Science & Engineering</div>
+    <div class="edu-hero-school">Bachelor of Technology in Computer Science & Engineering</div>
+    <div class="edu-hero-meta">
+      <div class="edu-meta-item">📅 2023 – 2027</div>
+      <div class="edu-meta-item">📍 Gwalior, India</div>
+      <div class="edu-meta-item">🏆 In Progress</div>
+    </div>
+  </div>
+
+  <div class="edu-2col reveal">
+    <div class="edu-sub-card">
+      <div class="edu-sub-title">Academic Highlights</div>
+      <ul class="edu-highlights-list">
+        <li><span class="dot">▸</span><span>Specialized in Computer Science and Engineering</span></li>
+        <li><span class="dot">▸</span><span>Strong foundation in Data Structures and Algorithms</span></li>
+        <li><span class="dot">▸</span><span>Coursework in Software Engineering & OOP</span></li>
+        <li><span class="dot">▸</span><span>Database Management and System Design</span></li>
+        <li><span class="dot">▸</span><span>Web Development and Full-Stack Technologies</span></li>
+        <li><span class="dot">▸</span><span>Built 10+ real-world projects alongside academics</span></li>
+      </ul>
+    </div>
+    <div class="edu-sub-card">
+      <div class="edu-sub-title">Relevant Coursework</div>
+      <div class="coursework-tags">
+        <span class="cw-tag">Data Structures & Algorithms</span>
+        <span class="cw-tag">Database Management</span>
+        <span class="cw-tag">Object Oriented Programming</span>
+        <span class="cw-tag">Software Engineering</span>
+        <span class="cw-tag">Computer Networks</span>
+        <span class="cw-tag">Operating Systems</span>
+        <span class="cw-tag">System Design</span>
+        <span class="cw-tag">Web Technologies</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="edu-3cards reveal">
+    <div class="edu-info-card"><div class="edu-info-icon">📖</div><div class="edu-info-title">Strong Academic Foundation</div><div class="edu-info-desc">CSE core subjects with consistent academic performance and project-based learning throughout the degree.</div></div>
+    <div class="edu-info-card"><div class="edu-info-icon">🏆</div><div class="edu-info-title">Technical Excellence</div><div class="edu-info-desc">Specialized in cutting-edge web technologies, AI APIs, and gained hands-on experience through real-world projects.</div></div>
+    <div class="edu-info-card"><div class="edu-info-icon">📍</div><div class="edu-info-title">Industry Readiness</div><div class="edu-info-desc">Bridged academic knowledge and industry requirements through practical application and shipping real products.</div></div>
+  </div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- ACHIEVEMENTS -->
+<div class="sec" id="achievements">
+  <div class="sec-header reveal">
+    <h2 class="sec-title">Achievements & Recognition</h2>
+    <div class="sec-line"></div>
+    <p class="sec-sub">Milestones, certifications, and things I'm proud of building.</p>
+  </div>
+
+  <div class="ach-grid reveal">
+    <div class="ach-rec-card">
+      <div class="corner-blob" style="background:#f59e0b"></div>
+      <div class="ach-category-badge">Project Achievement</div>
+      <div class="ach-rec-header"><span class="ach-rec-icon">🏆</span><div class="ach-rec-title">AI App Builder</div></div>
+      <div class="ach-rec-org">Personal Projects • 2024</div>
+      <div class="ach-rec-desc">Built and shipped Sakura — a fully functional AI chatbot widget using Claude API with custom anime persona, recognized for creative AI integration.</div>
+    </div>
+    <div class="ach-rec-card">
+      <div class="corner-blob" style="background:#a855f7"></div>
+      <div class="ach-category-badge">Technical Achievement</div>
+      <div class="ach-rec-header"><span class="ach-rec-icon">⭐</span><div class="ach-rec-title">Full Stack Milestone</div></div>
+      <div class="ach-rec-org">Self-Learning • 2024</div>
+      <div class="ach-rec-desc">Achieved full-stack proficiency within 2 years of self-learning — from HTML basics to shipping AI-powered web apps used by real users.</div>
+    </div>
+    <div class="ach-rec-card">
+      <div class="corner-blob" style="background:#22c55e"></div>
+      <div class="ach-category-badge">Project Recognition</div>
+      <div class="ach-rec-header"><span class="ach-rec-icon">🎁</span><div class="ach-rec-title">ThumbAI — Innovative Tool</div></div>
+      <div class="ach-rec-org">Personal Projects • 2024</div>
+      <div class="ach-rec-desc">Developed ThumbAI — a selective AI-powered thumbnail regeneration tool that allows creators to replace specific elements using AI.</div>
+    </div>
+    <div class="ach-rec-card">
+      <div class="corner-blob" style="background:#3b82f6"></div>
+      <div class="ach-category-badge">DSA & Problem Solving</div>
+      <div class="ach-rec-header"><span class="ach-rec-icon">⌨️</span><div class="ach-rec-title">Consistent DSA Practice</div></div>
+      <div class="ach-rec-org">LeetCode & CodeStudio • Ongoing</div>
+      <div class="ach-rec-desc">Consistently solving Data Structures and Algorithms problems on LeetCode and CodeStudio alongside project work to build strong fundamentals.</div>
+    </div>
+  </div>
+
+  <div class="stats-row reveal">
+    <div class="stats-row-card"><div class="stats-row-icon">⌨️</div><div class="stats-row-num">10+</div><div class="stats-row-label">Projects Shipped</div></div>
+    <div class="stats-row-card"><div class="stats-row-icon">🏆</div><div class="stats-row-num">5+</div><div class="stats-row-label">AI Apps Built</div></div>
+    <div class="stats-row-card"><div class="stats-row-icon">👤</div><div class="stats-row-num">5+</div><div class="stats-row-label">Clients Served</div></div>
+    <div class="stats-row-card"><div class="stats-row-icon">⭐</div><div class="stats-row-num">2+</div><div class="stats-row-label">Years Building</div></div>
+  </div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- RESUME SECTION -->
+<div class="sec" id="resume">
+  <div class="sec-header reveal">
+    <h2 class="sec-title">Resume</h2>
+    <div class="sec-line"></div>
+    <p class="sec-sub">View my full resume below or download it.</p>
+  </div>
+  <div class="reveal" style="background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;color:#111">
+
+    <!-- Toolbar -->
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-bottom:1px solid #e0e0e0;background:#f8f8f8">
+      <span style="font-size:0.82rem;color:#666;font-family:'JetBrains Mono',monospace">📄 Ayush_Arya_Resume.pdf</span>
+      <div style="display:flex;gap:10px">
+        <a href="Ayush_Arya_Resume.pdf" target="_blank" class="btn-outline" style="padding:6px 16px;font-size:0.76rem">🔗 Open in Tab</a>
+        <a href="Ayush_Arya_Resume.pdf" download class="btn-blue" style="padding:6px 16px;font-size:0.76rem">⬇️ Download</a>
+      </div>
+    </div>
+
+    <!-- HTML Resume Body -->
+    <div style="max-width:780px;margin:0 auto;padding:40px 48px;font-family:'Inter',sans-serif;font-size:0.88rem;line-height:1.6;color:#111">
+
+      <!-- Header -->
+      <div style="text-align:center;margin-bottom:16px">
+        <div style="font-size:1.8rem;font-weight:800;letter-spacing:0.08em;margin-bottom:8px;color:#0d0d0d">AYUSH ARYA</div>
+        <div style="font-size:0.82rem;color:#444;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;align-items:center">
+          <!-- Email -->
+          <a href="mailto:ayusharya.cse@gmail.com" style="color:#333;text-decoration:none;display:flex;align-items:center;gap:5px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>ayusharya.cse@gmail.com</span>
+          </a>
+          <span style="color:#ccc">|</span>
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/in/ayush-arya-81488a343" target="_blank" style="color:#333;text-decoration:none;display:flex;align-items:center;gap:5px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#0077b5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            <span>LinkedIn</span>
+          </a>
+          <span style="color:#ccc">|</span>
+          <!-- GitHub -->
+          <a href="https://github.com/Ayusharya06" target="_blank" style="color:#333;text-decoration:none;display:flex;align-items:center;gap:5px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#333"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            <span>GitHub</span>
+          </a>
+          <span style="color:#ccc">|</span>
+          <!-- Portfolio -->
+          <a href="https://resume-six-rho-49.vercel.app" target="_blank" style="color:#333;text-decoration:none;display:flex;align-items:center;gap:5px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span>Portfolio</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <hr style="border:none;border-top:1.5px solid #ddd;margin:10px 0 14px"/>
+
+      <!-- Education -->
+      <div style="margin-bottom:18px">
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4f8ef7;margin-bottom:4px">Education</div>
+        <hr style="border:none;border-top:0.5px solid #ddd;margin-bottom:10px"/>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap">
+          <div>
+            <div style="font-weight:700;font-size:0.92rem">Bachelor of Technology in Computer Science &amp; Engineering</div>
+          </div>
+          <div style="text-align:right;font-size:0.8rem;color:#555">
+            <div>2023 – 2027</div>
+            <div>Gwalior, India</div>
+          </div>
+        </div>
+        <ul style="margin:8px 0 0 16px;padding:0;color:#333;font-size:0.83rem">
+          <li>Specializing in Full Stack Web Development, DSA, and AI Integration</li>
+          <li>Coursework: DSA, OOP, DBMS, Software Engineering, Computer Networks, Web Technologies</li>
+          <li>Built 10+ real-world projects alongside academics</li>
+        </ul>
+      </div>
+
+      <!-- Projects -->
+      <div style="margin-bottom:18px">
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4f8ef7;margin-bottom:4px">Projects</div>
+        <hr style="border:none;border-top:0.5px solid #ddd;margin-bottom:10px"/>
+
+        <div style="margin-bottom:14px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap">
+            <div style="font-weight:700;font-size:0.9rem">ThumbAI — AI-Powered Thumbnail Regenerator</div>
+            <div style="font-size:0.78rem;color:#555">React.js · Claude API · Canvas API · Vercel</div>
+          </div>
+          <ul style="margin:6px 0 0 16px;padding:0;color:#333;font-size:0.83rem">
+            <li><strong>Problem:</strong> Creators waste hours redesigning full thumbnails to change one element — no tool allowed surgical region replacement.</li>
+            <li><strong>Solution:</strong> Upload thumbnail → select region via canvas → describe change → Claude AI regenerates only that element. Hours → seconds.</li>
+            <li>Canvas-based region selector; non-destructive editing preserves brand identity</li>
+            <li>One-click full-resolution export, ready to upload to YouTube</li>
+          </ul>
+        </div>
+
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap">
+            <div style="font-weight:700;font-size:0.9rem">FocusLock — Penalty-Based Android App Blocker</div>
+            <div style="font-size:0.78rem;color:#555">Java · Android · Accessibility API · Material Design</div>
+          </div>
+          <ul style="margin:6px 0 0 16px;padding:0;color:#333;font-size:0.83rem">
+            <li><strong>Problem:</strong> Traditional app blockers are easily bypassed — no real consequence for unlocking mid-session.</li>
+            <li><strong>Solution:</strong> Focus sessions with a penalty system (math challenge / long-press timer) before early unlock. Makes distraction costly.</li>
+            <li>Accessibility API real-time monitoring; session scheduling &amp; focus streak tracker</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div style="margin-bottom:18px">
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4f8ef7;margin-bottom:4px">Skills</div>
+        <hr style="border:none;border-top:0.5px solid #ddd;margin-bottom:10px"/>
+        <table style="width:100%;border-collapse:collapse;font-size:0.83rem">
+          <tr><td style="padding:2px 0;width:155px;font-weight:600;vertical-align:top">Languages</td><td style="padding:2px 0;color:#333">JavaScript, HTML5, CSS3, Python, Java (Android), SQL</td></tr>
+          <tr><td style="padding:2px 0;font-weight:600;vertical-align:top">Frameworks</td><td style="padding:2px 0;color:#333">React.js, Node.js, Express.js, Tailwind CSS, Web Audio API, Canvas API</td></tr>
+          <tr><td style="padding:2px 0;font-weight:600;vertical-align:top">Backend &amp; DB</td><td style="padding:2px 0;color:#333">REST APIs, MongoDB, MySQL, Firebase</td></tr>
+          <tr><td style="padding:2px 0;font-weight:600;vertical-align:top">AI &amp; Tools</td><td style="padding:2px 0;color:#333">Claude API, Prompt Engineering, Git, GitHub, VS Code, Vercel</td></tr>
+          <tr><td style="padding:2px 0;font-weight:600;vertical-align:top">Concepts</td><td style="padding:2px 0;color:#333">Data Structures &amp; Algorithms, OOP, DBMS, Responsive Design, MVC</td></tr>
+        </table>
+      </div>
+
+      <!-- Achievements -->
+      <div>
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4f8ef7;margin-bottom:4px">Achievements &amp; Recognition</div>
+        <hr style="border:none;border-top:0.5px solid #ddd;margin-bottom:10px"/>
+        <ul style="margin:0 0 0 16px;padding:0;color:#333;font-size:0.83rem">
+          <li>Built and shipped <strong>10+ web projects</strong> — AI chatbots, music players, voice changers, and productivity tools</li>
+          <li><strong>ThumbAI:</strong> Creative AI integration using Claude API for selective thumbnail regeneration</li>
+          <li><strong>FocusLock:</strong> Original concept solving real student distraction problem via penalty-based Android app</li>
+          <li>Consistent DSA practice on LeetCode &amp; CodeStudio alongside project work</li>
+          <li>Self-taught Full Stack proficiency in under 2 years — HTML basics to shipping AI-powered apps</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- CONTACT CTA -->
+<div class="sec" id="contact">
+  <div class="contact-cta-box reveal">
+    <div class="contact-cta-title">Ready to Start Your Next Project?</div>
+    <p class="contact-cta-sub">Let's work together to build something amazing. I'm always excited to take on new challenges and create innovative solutions.</p>
+    <div class="contact-cta-btns">
+      <a href="mailto:ayusharya.cse@gmail.com" class="btn-blue">✉️ Email Me</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Ayush Arya</div>
+      <div class="footer-brand-desc">Full Stack Developer passionate about building innovative web solutions and AI-powered apps that make a real difference.</div>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/in/ayush-arya-81488a343" target="_blank" class="footer-soc">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://github.com/Ayusharya06" target="_blank" class="footer-soc">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        </a>
+        <a href="mailto:ayusharya.cse@gmail.com" class="footer-soc">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Quick Links</div>
+      <ul class="footer-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact Info</div>
+      <div class="footer-contact-item"><div class="footer-contact-label">Email:</div><div class="footer-contact-val">ayusharya.cse@gmail.com</div></div>
+      <div class="footer-contact-item"><div class="footer-contact-label">Location:</div><div class="footer-contact-val">Gwalior, India</div></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Ayush Arya</div>
+    <a href="#hero" class="back-top">↑</a>
+  </div>
+</footer>
+
+<script>
+// Typing
+const phrases=['Full Stack Developer.','AI App Builder.','Problem Solver.','Open to Work.'];
+let pi=0,ci=0,del=false;
+const el=document.getElementById('typed');
+function type(){const p=phrases[pi];if(!del){el.textContent=p.slice(0,++ci);if(ci===p.length){del=true;setTimeout(type,1800);return}}else{el.textContent=p.slice(0,--ci);if(ci===0){del=false;pi=(pi+1)%phrases.length}}setTimeout(type,del?38:70);}
+type();
+
+// Name language rotation
+const names=[
+  'あゆし・アリア',      // Japanese
+  '阿玉什·阿里亚',      // Chinese
+  'আয়ুশ আরিয়া',      // Bengali
+  'آیوش آریا',          // Persian/Urdu
+  'அயுஷ் ஆரியா',      // Tamil
+  'ਅਯੁਸ਼ ਆਰੀਆ',      // Punjabi
+  'Αγιούς Άρια',        // Greek
+  'Аюш Ария',           // Russian
+  'アーユシュ・アリヤ',  // Japanese alt
+  'Ayush Arya'           // Back to English
+];
+let ni=0;
+const foreignEl=document.getElementById('foreign-name');
+setInterval(()=>{ni=(ni+1)%names.length;foreignEl.style.opacity='0';setTimeout(()=>{foreignEl.textContent=names[ni];foreignEl.style.opacity='1';},300);},2200);
+
+// Particles
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+let W,H,pts=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;pts=Array.from({length:55},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.5+.5}))}
+resize();window.addEventListener('resize',resize);
+function draw(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(79,142,247,0.22)';ctx.fill()});pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{const d=Math.hypot(a.x-b.x,a.y-b.y);if(d<110){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(79,142,247,${.07*(1-d/110)})`;ctx.lineWidth=.5;ctx.stroke()}}));requestAnimationFrame(draw);}
+draw();
+
+// Reveal on scroll
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(e=>obs.observe(e));
+
+// Skill bars animate on scroll
+const barObs=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.querySelectorAll('.skill-bar-fill').forEach(bar=>{bar.style.width=bar.dataset.w+'%'});barObs.unobserve(entry.target)}})},{threshold:0.2});
+document.querySelectorAll('.skill-card').forEach(c=>barObs.observe(c));
+</script>
+</body>
+</html>
